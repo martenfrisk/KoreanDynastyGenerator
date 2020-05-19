@@ -2,13 +2,14 @@ import React from 'react'
 import { departList, rankList, officeDescs } from './Namelist'
 import { Link, Tooltip, Spacer, Code, Textarea, Card, Text, Page, Grid, Button, Collapse, Divider, Row } from '@zeit-ui/react'
 import * as Icon from '@zeit-ui/react-icons'
-import { refreshPage, sortedFamObj, keyToValue, downloadTxtFile, downloadAllPersons, allPersonArr } from './GenAll'
+import { refreshPage, sortedFamObj, keyToValue, downloadTxtFile, downloadContent, allPersonArr } from './GenAll'
 
 const Information = (props) => {
+    
     return (
     <>
 <Page>
-    <Page.Header>
+    <Page.Header style={{marginTop: '2em', marginBottom: '-2em'}}>
       <Text h1>Korean Dynasty Generator</Text>
     </Page.Header>
     <Page.Content>
@@ -134,37 +135,45 @@ const Information = (props) => {
       </p>
       <Text h4>Code example</Text>
       <Code block>
-      {`[{
-        "familyId": 7,
-        "famName": "Chae",
-        "power" : 99,
-        "persons" : [
-          { "personID": "70",
-            "firstName":"Useung",
-            "rank":1,
-            "post":"87"
-          }
-        }]`}
+      {`
+[{
+    "familyId": 7,
+    "famName": "Chae",
+    "power" : 99,
+    "persons" : [{ 
+        "personID": "70",
+        "firstName":"Useung",
+        "rank":1,
+        "post":"87"
+    }]
+}]`}
       </Code>
       <Text h4>Unedited results</Text>
     <Textarea 
-      value={JSON.stringify(sortedFamObj)}
-      width="100%"
+      value={JSON.stringify(sortedFamObj, null, 2)}
       id="results"
-      // defaultlValue={JSON.stringify(sortedFamObj)}
-    />
-    <Spacer y={1} />
-    <Button onClick={downloadTxtFile} icon={<Icon.Download />} auto style={{ textTransform: 'lowercase'}}>Download results as .txt file</Button>
-    <Spacer y={1} />
-    <Textarea 
-      value={JSON.stringify(allPersonArr)}
       width="100%"
-      id="allPersons"
-      // defaultlValue={JSON.stringify(allPersonArr)}
     />
     <Spacer y={1} />
-    <Button onClick={downloadAllPersons} icon={<Icon.Download />} auto style={{ textTransform: 'lowercase'}}>Download list of persons as .txt file</Button>
-
+    <Button 
+        onClick={downloadTxtFile} 
+        icon={<Icon.Download />} 
+        auto 
+        style={{ textTransform: 'lowercase'}}>Download results as .json file
+    </Button>
+    <textarea 
+      value={JSON.stringify(allPersonArr, null, 2)}
+      id="allPersons"
+      style={{ display: 'none' }}
+    />
+    <Button 
+        onClick={downloadContent} 
+        icon={<Icon.Download />} 
+        auto 
+        style={{ textTransform: 'lowercase', marginLeft: '10px'}}
+    >
+        Download list of persons as .json file
+    </Button>
     </Card>
     </Page.Content>
     <Spacer y={2} />

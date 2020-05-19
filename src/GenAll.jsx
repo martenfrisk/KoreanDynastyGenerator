@@ -41,7 +41,7 @@ for (let i = 0; i < familyNameArr.length; i++) {
   let firstNameNr = getRandomInt(0, nameEnd)
   for (let i = 0; i < number; i++) {
     let newName = nameArr[firstNameNr] 
-    let personID = familyId + "" + i 
+    let personID = familyId + '' + i 
     personArr[i] = {
       personID: personID,
       firstName: newName,
@@ -142,18 +142,18 @@ export const keyToValue = (numb, arr) => {
 
 export const downloadTxtFile = () => {
   const element = document.createElement("a");
-  const file = new Blob([document.getElementById('results').value], {type: 'text/plain'});
+  const file = new Blob([document.getElementById('results').value], {type: 'application/json'});
   element.href = URL.createObjectURL(file);
-  element.download = "results-kor-gen.txt";
+  element.download = "korgen-results.json";
   document.body.appendChild(element); // Required for this to work in FireFox
   element.click();
 }
 
-export const downloadAllPersons = () => {
+export const downloadContent = () => {
   const element = document.createElement("a");
-  const file = new Blob([document.getElementById('allPersons').value], {type: 'text/plain'});
+  const file = new Blob([document.getElementById('allPersons').value], {type: 'application/json'});
   element.href = URL.createObjectURL(file);
-  element.download = "person-list-kor-gen.txt";
+  element.download = "korgen-person-list.json";
   document.body.appendChild(element); // Required for this to work in FireFox
   element.click();
 }

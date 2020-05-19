@@ -17,6 +17,7 @@
     "formik": "^2.1.4",
     "gh-pages": "^2.2.0",
     "griddle-react": "^1.13.1",
+    "js-file-download": "^0.4.12",
     "primeicons": "^3.0.0-rc.1",
     "primereact": "^4.2.1",
     "react": "^16.13.1",
