@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/KoreanDynastyGenerator/static/css/main.e7a1a9e5.chunk.css",
-    "main.js": "/KoreanDynastyGenerator/static/js/main.c7c331f1.chunk.js",
-    "main.js.map": "/KoreanDynastyGenerator/static/js/main.c7c331f1.chunk.js.map",
+    "main.js": "/KoreanDynastyGenerator/static/js/main.b8cf00e4.chunk.js",
+    "main.js.map": "/KoreanDynastyGenerator/static/js/main.b8cf00e4.chunk.js.map",
     "runtime-main.js": "/KoreanDynastyGenerator/static/js/runtime-main.5b79ab7b.js",
     "runtime-main.js.map": "/KoreanDynastyGenerator/static/js/runtime-main.5b79ab7b.js.map",
     "static/js/2.108110a8.chunk.js": "/KoreanDynastyGenerator/static/js/2.108110a8.chunk.js",
     "static/js/2.108110a8.chunk.js.map": "/KoreanDynastyGenerator/static/js/2.108110a8.chunk.js.map",
     "index.html": "/KoreanDynastyGenerator/index.html",
-    "precache-manifest.851f61881911d65c2938e8acd97f0fbd.js": "/KoreanDynastyGenerator/precache-manifest.851f61881911d65c2938e8acd97f0fbd.js",
+    "precache-manifest.867ceaa5bce686b1fdc4d228388479c4.js": "/KoreanDynastyGenerator/precache-manifest.867ceaa5bce686b1fdc4d228388479c4.js",
     "service-worker.js": "/KoreanDynastyGenerator/service-worker.js",
     "static/css/main.e7a1a9e5.chunk.css.map": "/KoreanDynastyGenerator/static/css/main.e7a1a9e5.chunk.css.map",
     "static/js/2.108110a8.chunk.js.LICENSE.txt": "/KoreanDynastyGenerator/static/js/2.108110a8.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.5b79ab7b.js",
     "static/js/2.108110a8.chunk.js",
     "static/css/main.e7a1a9e5.chunk.css",
-    "static/js/main.c7c331f1.chunk.js"
+    "static/js/main.b8cf00e4.chunk.js"
   ]
 }
