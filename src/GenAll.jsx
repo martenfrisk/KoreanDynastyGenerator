@@ -4,21 +4,21 @@ import { useState } from 'react'
 import ReactTooltip from "react-tooltip"
 import { Link, Tooltip, Spacer, Code, Textarea, Card, Text, Page, Grid, Button, Fieldset, Collapse, Divider, Row } from '@zeit-ui/react'
 import * as Icon from '@zeit-ui/react-icons'
-import Chance from 'chance'
+// import Chance from 'chance'
 
 
 const GenAll = (props) => {
     const [ famState, setFamState ] = useState({})
 
-    const chance = new Chance()
-    function weightedRandomDistrib(min,max,mean,varianceFactor) {
-      let prob = [], seq = [];
-      for(let i=min;i<max;i++) {
-        prob.push(Math.pow(max-Math.abs(mean-i),varianceFactor));
-        seq.push(i);
-      }
-      return chance.weighted(seq, prob);
-    }
+    // const chance = new Chance()
+    // function weightedRandomDistrib(min,max,mean,varianceFactor) {
+    //   let prob = [], seq = [];
+    //   for(let i=min;i<max;i++) {
+    //     prob.push(Math.pow(max-Math.abs(mean-i),varianceFactor));
+    //     seq.push(i);
+    //   }
+    //   return chance.weighted(seq, prob);
+    // }
     function getRandomInt(min, max) {
       min = Math.ceil(min)
       max = Math.floor(max)
@@ -34,12 +34,10 @@ const GenAll = (props) => {
         return getRandomInt(max * 0.75, max)
       }
     }
-    let pwrTempArr = []
     let famObj = []
     for (let i = 0; i < familyNameArr.length; i++) {
       let loopFam = {}
       let familyPower = weightedRandom(1, 150)
-      pwrTempArr.push(familyPower)
       let familyName = familyNameArr[i]
       let familyId = i
       loopFam = {
@@ -66,7 +64,6 @@ const GenAll = (props) => {
       famObj.push(loopFam)
     }
     
-    console.log(pwrTempArr)
     
 
     
@@ -77,8 +74,6 @@ const GenAll = (props) => {
     }
 
     let sortedFamObj = famObj.sortBy('power')
-    console.log(sortedFamObj)
-  
 
     function getPostArrs(map) {
       let map_array = new Array(map.length);
@@ -92,6 +87,7 @@ const GenAll = (props) => {
       }
       return map_array
     }
+    let allPersonArr = []
 
     const assignRanks = (group, groupSize, rankQuant, rankName, postArr) => {
       let selectGroup = group.slice(0, groupSize)
@@ -113,6 +109,7 @@ const GenAll = (props) => {
                   }
                   selectPerson = 0
                   found = true
+                  allPersonArr.push(selectGroup[i].persons[selectPerson])
             } else {
                   selectPerson++
             }
@@ -124,6 +121,7 @@ const GenAll = (props) => {
           }
       } while (remPosts > 0)
     }
+    let sortedAllPersons = allPersonArr.sortBy('famName')
 
 
     assignRanks(sortedFamObj, 10, 24, 1, getPostArrs(rankPosts[0]))
@@ -167,6 +165,15 @@ const GenAll = (props) => {
       element.click();
     }
 
+    let downloadAllPersons = () => {
+      const element = document.createElement("a");
+      const file = new Blob([document.getElementById('allPersons').value], {type: 'text/plain'});
+      element.href = URL.createObjectURL(file);
+      element.download = "person-list-kor-gen.txt";
+      document.body.appendChild(element); // Required for this to work in FireFox
+      element.click();
+    }
+
     function refreshPage() {
       window.location.reload(false);
     }
@@ -174,6 +181,9 @@ const GenAll = (props) => {
   return (
     <>
     <Page>
+    <Page.Header>
+      <Text h1>Korean Dynasty Generator</Text>
+    </Page.Header>
     <Page.Content>
       <Fieldset>
         <Text h3>
@@ -312,13 +322,22 @@ const GenAll = (props) => {
       </Code>
       <Text h4>Unedited results</Text>
     <Textarea 
-      defaultValue={JSON.stringify(sortedFamObj)}
       value={JSON.stringify(sortedFamObj)}
       width="100%"
       id="results"
+      defaultlValue={JSON.stringify(sortedFamObj)}
     />
     <Spacer y={1} />
     <Button onClick={downloadTxtFile} icon={<Icon.Download />} auto style={{ textTransform: 'lowercase'}}>Download results as .txt file</Button>
+    <Spacer y={1} />
+    <Textarea 
+      value={JSON.stringify(allPersonArr)}
+      width="100%"
+      id="allPersons"
+      defaultlValue={JSON.stringify(allPersonArr)}
+    />
+    <Spacer y={1} />
+    <Button onClick={downloadAllPersons} icon={<Icon.Download />} auto style={{ textTransform: 'lowercase'}}>Download list of persons as .txt file</Button>
 
     </Card>
     <ReactTooltip />
