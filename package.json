@@ -1,0 +1,60 @@
+{
+  "name": "korean-name-generator",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "https://martenfrisk.github.io/",
+  "dependencies": {
+    "@atlaskit/section-message": "^4.1.9",
+    "@atlaskit/table-tree": "^8.0.3",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@zeit-ui/react": "^1.5.0",
+    "@zeit-ui/react-icons": "^1.2.2",
+    "chance": "^1.1.5",
+    "chance-cli": "^1.0.7",
+    "d3-random": "^2.1.0",
+    "formik": "^2.1.4",
+    "gh-pages": "^2.2.0",
+    "griddle-react": "^1.13.1",
+    "primeicons": "^3.0.0-rc.1",
+    "primereact": "^4.2.1",
+    "react": "^16.13.1",
+    "react-base-table": "^1.9.2",
+    "react-data-grid": "^7.0.0-canary.16",
+    "react-dom": "^16.13.1",
+    "react-json-table": "^0.1.1",
+    "react-json-to-table": "^0.1.5",
+    "react-scripts": "3.4.1",
+    "react-select": "^3.1.0",
+    "react-table": "^7.1.0",
+    "react-tabulator": "^0.12.7",
+    "react-tooltip": "^4.2.6",
+    "react-virtualized": "^9.21.2",
+    "react-virtualized-tree": "^3.4.0",
+    "styled-components": "^5.1.0"
+  },
+  "scripts": {
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -b master -d build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
