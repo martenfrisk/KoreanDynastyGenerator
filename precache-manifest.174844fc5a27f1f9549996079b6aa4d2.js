@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "f433ab52eb5dff88e37d9cf7fe594852",
+    "revision": "27b79bcbd28a5fadab85a15ed0d82ece",
     "url": "/KoreanDynastyGenerator/index.html"
   },
   {
-    "revision": "f6340cbceb53b50eeb4f",
+    "revision": "702680ecbf2781a10e74",
     "url": "/KoreanDynastyGenerator/static/css/main.e7a1a9e5.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/KoreanDynastyGenerator/static/js/2.108110a8.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "f6340cbceb53b50eeb4f",
-    "url": "/KoreanDynastyGenerator/static/js/main.406b28ae.chunk.js"
+    "revision": "702680ecbf2781a10e74",
+    "url": "/KoreanDynastyGenerator/static/js/main.0fb45f32.chunk.js"
   },
   {
     "revision": "1f52ef7759fb97665687",
