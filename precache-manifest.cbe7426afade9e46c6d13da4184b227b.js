@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e51b8138fb9695c7dc47f72bd5ffdd67",
+    "revision": "9f3d46fc1a03a30847394ae906103ded",
     "url": "/KoreanDynastyGenerator/index.html"
   },
   {
-    "revision": "ac9f0c41be1e02ab88c1",
+    "revision": "a8323ab01b180e98b776",
     "url": "/KoreanDynastyGenerator/static/css/main.e7a1a9e5.chunk.css"
   },
   {
-    "revision": "3c031a704912f509a886",
-    "url": "/KoreanDynastyGenerator/static/js/2.8b1bd10e.chunk.js"
+    "revision": "5b6c586715198466ded3",
+    "url": "/KoreanDynastyGenerator/static/js/2.b1009f57.chunk.js"
   },
   {
     "revision": "e88a3e95b5364d46e95b35ae8c0dc27d",
-    "url": "/KoreanDynastyGenerator/static/js/2.8b1bd10e.chunk.js.LICENSE.txt"
+    "url": "/KoreanDynastyGenerator/static/js/2.b1009f57.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "ac9f0c41be1e02ab88c1",
-    "url": "/KoreanDynastyGenerator/static/js/main.7984901d.chunk.js"
+    "revision": "a8323ab01b180e98b776",
+    "url": "/KoreanDynastyGenerator/static/js/main.151024d4.chunk.js"
   },
   {
     "revision": "1f52ef7759fb97665687",
