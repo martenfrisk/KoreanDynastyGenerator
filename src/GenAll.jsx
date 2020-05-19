@@ -172,7 +172,7 @@ const GenAll = (props) => {
       <Collapse.Group>
         <Collapse title="Purpose" initialVisible>
         It started with me creating a map using the excellent <Link icon href="https://azgaar.github.io/Fantasy-Map-Generator/" style={{borderBottom: '1px gray dotted'}}>Azgaar's Fantasy Map Generator</Link> and deciding to base one nation on Joseon-era Korea. As I made up the backstory I realized that I would have to create several characters within the government and stumbled upon the State Code which happened to list all agencies, their staff and the rank of each official.<br />
-        You can use this generator however you please and feel free to download the code from the <Link icon href="" style={{borderBottom: '1px gray dotted'}}>GitHub repo</Link> if you want to adjust anything. 
+        You can use this generator however you please and feel free to download the code from the <Link icon href="https://github.com/martenfrisk/KoreanDynastyGenerator/tree/source" style={{borderBottom: '1px gray dotted'}}>GitHub repo</Link> if you want to adjust anything. 
         </Collapse>
         <Collapse title="Implementation">
         While the number of government officials is based on those originally stipulated in the State Code, the data related to families is randomized due to lack of exact historical records. The bigger the family, the more likely that they will contain high-ranking officials. Not included are local and provincial government positions as well as the royal family (see Planned features below).
@@ -197,7 +197,7 @@ const GenAll = (props) => {
       </Fieldset.Subtitle>
         <Fieldset.Footer>
           <Fieldset.Footer.Actions>
-            <Button icon={<Icon.Github />} href="" auto size="mini">GitHub Repo</Button>
+            <Button icon={<Icon.Github />} href="https://github.com/martenfrisk/KoreanDynastyGenerator/tree/source" auto size="mini">GitHub Repo</Button>
           </Fieldset.Footer.Actions>
         </Fieldset.Footer>
       </Fieldset>
@@ -275,7 +275,7 @@ const GenAll = (props) => {
 
     <Card hoverable>
       <p id="textarea">
-        In the textarea below is the full generated result. The following is an example of a single object, with only the first person. Click <Link href="../public/Infotable.html">here</Link> more details on the keys (rank, post, power) and sources.
+        In the textarea below is the full generated result. The following is an example of a single object, with only the first person. Click <Link href="./Infotable.html" style={{borderBottom: '1px gray dotted'}}>here</Link> more details on the keys (rank, post, power) and sources.
       </p>
       <Text h4>Code example</Text>
       <Code block>

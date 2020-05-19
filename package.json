@@ -2,7 +2,7 @@
   "name": "korean-name-generator",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://martenfrisk.github.io/",
+  "homepage": "https://martenfrisk.github.io/KoreanDynastyGenerator/",
   "dependencies": {
     "@atlaskit/section-message": "^4.1.9",
     "@atlaskit/table-tree": "^8.0.3",
