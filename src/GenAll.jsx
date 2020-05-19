@@ -1,14 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { nameArr, familyNameArr, rankPosts, departList, rankList, officeDescs } from './Namelist'
-import { useState } from 'react'
-import ReactTooltip from "react-tooltip"
-import { Link, Tooltip, Spacer, Code, Textarea, Card, Text, Page, Grid, Button, Fieldset, Collapse, Divider, Row } from '@zeit-ui/react'
+import { Link, Tooltip, Spacer, Code, Textarea, Card, Text, Page, Grid, Button, Collapse, Divider, Row } from '@zeit-ui/react'
 import * as Icon from '@zeit-ui/react-icons'
 // import Chance from 'chance'
 
 
 const GenAll = (props) => {
-    const [ famState, setFamState ] = useState({})
 
     // const chance = new Chance()
     // function weightedRandomDistrib(min,max,mean,varianceFactor) {
@@ -37,7 +34,7 @@ const GenAll = (props) => {
     let famObj = []
     for (let i = 0; i < familyNameArr.length; i++) {
       let loopFam = {}
-      let familyPower = weightedRandom(1, 150)
+      let familyPower = weightedRandom(1, 175)
       let familyName = familyNameArr[i]
       let familyId = i
       loopFam = {
@@ -66,7 +63,7 @@ const GenAll = (props) => {
     
     
 
-    
+    // eslint-disable-next-line no-extend-native
     Array.prototype.sortBy = function(p) {
         return this.slice(0).sort(function(a,b) {
           return (b[p] > a[p]) ? 1 : (b[p] < a[p]) ? -1 : 0;
@@ -121,7 +118,6 @@ const GenAll = (props) => {
           }
       } while (remPosts > 0)
     }
-    let sortedAllPersons = allPersonArr.sortBy('famName')
 
 
     assignRanks(sortedFamObj, 10, 24, 1, getPostArrs(rankPosts[0]))
@@ -145,10 +141,6 @@ const GenAll = (props) => {
     assignRanks(sortedFamObj, 111, 2023, 19, getPostArrs(rankPosts[18]))
 
  
-    useEffect(() => {
-      setFamState(sortedFamObj)
-
-    }, [])
 
     const keyToValue = (numb, arr) => {
       let replace_map = arr
@@ -185,11 +177,10 @@ const GenAll = (props) => {
       <Text h1>Korean Dynasty Generator</Text>
     </Page.Header>
     <Page.Content>
-      <Fieldset>
+      <Card>
         <Text h3>
         Generate list of Korean names for worldbuilding
         </Text>
-        <Fieldset.Subtitle>
         <Text blockquote size="1rem">
         The data is based on the <Link href="https://en.wikipedia.org/wiki/Gyeongguk_daejeon" icon style={{borderBottom: '1px gray dotted'}}>Korean State Code</Link> (gyeongguk daejeon) of 1471 which delineated the rank and number of officials in each government agency. In theory, every male citizen could sit the entrance exam to become a government official but in practice the power was concentrated in a few families.<Spacer y={1} />
         This generator roughly simulates how power could have been divided by in <Link href="https://en.wikipedia.org/wiki/Joseon" icon style={{borderBottom: '1px gray dotted'}}>Joseon Korea</Link> by creating families including family members with names, ranks and titles. 
@@ -223,13 +214,10 @@ const GenAll = (props) => {
           </ul>
         </Collapse>
       </Collapse.Group>
-      </Fieldset.Subtitle>
-        <Fieldset.Footer>
-          <Fieldset.Footer.Actions>
+        <Card.Footer>
             <Button icon={<Icon.Github />} href="https://github.com/martenfrisk/KoreanDynastyGenerator/tree/source" auto size="mini">GitHub Repo</Button>
-          </Fieldset.Footer.Actions>
-        </Fieldset.Footer>
-      </Fieldset>
+        </Card.Footer>
+      </Card>
       <Spacer y={2} />
       <Button icon={<Icon.ChevronsDown />} auto style={{marginRight: '10px'}}>
           <Link href="#textarea">Jump to results</Link>
@@ -244,15 +232,15 @@ const GenAll = (props) => {
         <Grid.Container gap={2} justify="center">
           <Grid xs={6}>
             {sortedFamObj.slice(0, 10)
-              .map((obj) => <div><Text b>{obj.famName}</Text>&nbsp; ({obj.power}) </div>)}
+              .map((obj) => <div key={obj.familyId}><Text b>{obj.famName}</Text>&nbsp; ({obj.power}) </div>)}
           </Grid>
           <Grid xs={6}>
             {sortedFamObj.slice(11, 21)
-              .map((obj) => <div><Text b>{obj.famName}</Text>&nbsp;({obj.power})</div>)}
+              .map((obj) => <div key={obj.familyId}><Text b>{obj.famName}</Text>&nbsp;({obj.power})</div>)}
           </Grid>
           <Grid xs={6}>
               {sortedFamObj.slice(22, 32)
-              .map((obj) => <div><Text b>{obj.famName}</Text>&nbsp;({obj.power})</div>)}
+              .map((obj) => <div key={obj.familyId}><Text b>{obj.famName}</Text>&nbsp;({obj.power})</div>)}
           </Grid>
         </Grid.Container>
       </Card>
@@ -265,12 +253,10 @@ const GenAll = (props) => {
       <Grid xs={24} justify="center">
         <Text h3  style={{ textAlign: 'center' }}>Most powerful family with members (ranks)</Text>
       </Grid>
-        {sortedFamObj.slice(0, 1).map((obj) => {
-          return (<>
               <Grid xs={24}>
               <Row justify="center">
               <Text h4>
-                {obj.famName}&nbsp;family -&nbsp;{obj.power}&nbsp;members
+                {sortedFamObj[0].famName}&nbsp;family -&nbsp;{sortedFamObj[0].power}&nbsp;members
               </Text>
               <Spacer y={2} />
               </Row>
@@ -282,9 +268,9 @@ const GenAll = (props) => {
                 <Divider volume={2} y={3} />
                 <Grid.Container>
 
-              {obj.persons.map((ob) => {
+              {sortedFamObj[0].persons.map((ob) => {
                 return (
-                  <Grid.Container gap={1}>
+                  <Grid.Container gap={1} key={ob.personID}>
                     <Grid xs={12}><Text small>{ob.firstName}</Text></Grid>
                     { ob.rank && <>
                     <Grid xs={6}><Text small>{keyToValue(ob.rank, rankList)}</Text></Grid>
@@ -295,8 +281,6 @@ const GenAll = (props) => {
                 )
               })}
                 </Grid.Container>
-            </>)
-        })}
     </Grid.Container>
     </Card> 
 
@@ -325,7 +309,7 @@ const GenAll = (props) => {
       value={JSON.stringify(sortedFamObj)}
       width="100%"
       id="results"
-      defaultlValue={JSON.stringify(sortedFamObj)}
+      // defaultlValue={JSON.stringify(sortedFamObj)}
     />
     <Spacer y={1} />
     <Button onClick={downloadTxtFile} icon={<Icon.Download />} auto style={{ textTransform: 'lowercase'}}>Download results as .txt file</Button>
@@ -334,13 +318,12 @@ const GenAll = (props) => {
       value={JSON.stringify(allPersonArr)}
       width="100%"
       id="allPersons"
-      defaultlValue={JSON.stringify(allPersonArr)}
+      // defaultlValue={JSON.stringify(allPersonArr)}
     />
     <Spacer y={1} />
     <Button onClick={downloadAllPersons} icon={<Icon.Download />} auto style={{ textTransform: 'lowercase'}}>Download list of persons as .txt file</Button>
 
     </Card>
-    <ReactTooltip />
     </Page.Content>
     <Spacer y={2} />
     <Page.Footer style={{textAlign: "right", paddingRight: "60px" }}>
@@ -349,8 +332,10 @@ const GenAll = (props) => {
       Styled with <Link href="https://github.com/zeit-ui/react" style={{borderBottom: '1px gray dotted'}}>Zeit UI</Link>.
       </Text>
     </Page.Footer>
+
     </Page>
-    <Spacer y={2} />
+    
+    <Spacer y={2}/>
   </>
   )
 }
