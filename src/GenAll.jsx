@@ -24,10 +24,22 @@ const GenAll = (props) => {
       max = Math.floor(max)
       return Math.floor(Math.random() * (max - min)) + min
     }
+    const weightedRandom = (min, max) => {
+      let dice = getRandomInt(1, 10)
+      if (dice <= 7) {
+        return getRandomInt(min, max * 0.4)
+      } else if (dice <= 9) {
+        return getRandomInt(max * 0.4, max * 0.75)
+      } else if (dice > 9) {
+        return getRandomInt(max * 0.75, max)
+      }
+    }
+    let pwrTempArr = []
     let famObj = []
     for (let i = 0; i < familyNameArr.length; i++) {
       let loopFam = {}
-      let familyPower = weightedRandomDistrib(35,150,50,5)
+      let familyPower = weightedRandom(1, 150)
+      pwrTempArr.push(familyPower)
       let familyName = familyNameArr[i]
       let familyId = i
       loopFam = {
@@ -45,7 +57,8 @@ const GenAll = (props) => {
         let personID = familyId + "" + i 
         personArr[i] = {
           personID: personID,
-          firstName: newName
+          firstName: newName,
+          famName: familyName
         }
         firstNameNr++
       }
@@ -53,6 +66,7 @@ const GenAll = (props) => {
       famObj.push(loopFam)
     }
     
+    console.log(pwrTempArr)
     
 
     
@@ -88,13 +102,15 @@ const GenAll = (props) => {
       do {
           let found = false
           while (!found) {
-            if  (!selectGroup[i] || selectGroup[i].length <= i) {
+            if (i >= groupSize) {
               i = 0
-              selectPerson = 0
-            } else if (!selectGroup[i].persons[selectPerson].rank) {
+            } else if  (selectPerson >= selectGroup[i].power) {
+              i++
+            } else if (!selectGroup[i].persons[selectPerson].rank && !selectGroup[i].persons[selectPerson].post) {
                   selectGroup[i].persons[selectPerson].rank = rankName
-                  if (postArr.length > 0) { selectGroup[i].persons[selectPerson].post = postArr.pop() }
-
+                  if (postArr.length > 0) { 
+                    selectGroup[i].persons[selectPerson].post = postArr.pop() 
+                  }
                   selectPerson = 0
                   found = true
             } else {
@@ -191,6 +207,9 @@ const GenAll = (props) => {
           <ul>
             <li>Local government positions</li>
             <li>Family clans (e.g. Gimhae Kim, Miryang Park)</li>
+            <li>Automatic family tree generation</li>
+            <li>Pages for each individual with more details</li>
+            <li>Adjustable weights for randomizer</li>
           </ul>
         </Collapse>
       </Collapse.Group>
