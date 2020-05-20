@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/KoreanDynastyGenerator/precache-manifest.1922eb37a5339b1a75bc82b2218983e1.js"
+  "/KoreanDynastyGenerator/precache-manifest.caf0b9011a793e7a5eb56cbfcadde8cb.js"
 );
 
 self.addEventListener('message', (event) => {
