@@ -42,6 +42,7 @@ for (let i = 0; i < familyNameArr.length; i++) {
   for (let i = 0; i < number; i++) {
     let newName = nameArr[firstNameNr] 
     let personID = familyId + '' + i 
+    personID = Number(personID)
     personArr[i] = {
       personID: personID,
       firstName: newName,
@@ -58,8 +59,8 @@ for (let i = 0; i < familyNameArr.length; i++) {
 // eslint-disable-next-line no-extend-native
 Array.prototype.sortBy = function(p) {
     return this.slice(0).sort(function(a,b) {
-      return (b[p] > a[p]) ? 1 : (b[p] < a[p]) ? -1 : 0;
-    });
+      return (b[p] > a[p]) ? 1 : (b[p] < a[p]) ? -1 : 0
+    })
 }
 
 export let sortedFamObj = famObj.sortBy('power')
@@ -83,7 +84,6 @@ export const assignRanks = (group, groupSize, rankQuant, rankName, postArr) => {
   let remPosts = rankQuant
   let i = 0
   let selectPerson = 0
-  // let thisPostArr = postArr 
   do {
       let found = false
       while (!found) {
@@ -94,7 +94,7 @@ export const assignRanks = (group, groupSize, rankQuant, rankName, postArr) => {
         } else if (!selectGroup[i].persons[selectPerson].rank && !selectGroup[i].persons[selectPerson].post) {
               selectGroup[i].persons[selectPerson].rank = rankName
               if (postArr.length > 0) { 
-                selectGroup[i].persons[selectPerson].post = postArr.pop() 
+                selectGroup[i].persons[selectPerson].post = Number(postArr.pop())
               }
               selectPerson = 0
               found = true
