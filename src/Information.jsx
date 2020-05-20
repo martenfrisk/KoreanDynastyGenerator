@@ -2,15 +2,15 @@ import React from 'react'
 import { departList, rankList, officeDescs } from './Namelist'
 import { Link, Tooltip, Spacer, Code, Textarea, Card, Text, Page, Grid, Button, Collapse, Divider, Row } from '@zeit-ui/react'
 import * as Icon from '@zeit-ui/react-icons'
-import { refreshPage, sortedFamObj, keyToValue, downloadTxtFile, downloadContent, allPersonArr } from './GenAll'
+import { refreshPage, sortedFamObj, keyToValue, downloadTxtFile, downloadContent, newPersArr } from './GenAll'
 import { Parser } from 'json2csv'
 import { CSVLink } from 'react-csv';
 import './Information.css'
 
-const Information = (props) => {
+const Information = () => {
   const fields = ['personID', 'firstName', 'famName', 'rank', 'post']
   const json2csvParser = new Parser({ fields})
-  const personData = json2csvParser.parse(allPersonArr)
+  const personData = json2csvParser.parse(newPersArr)
   return (
     <>
     <Page>
@@ -186,7 +186,7 @@ const Information = (props) => {
             style={{ textTransform: 'lowercase'}}>Download results as .json file
         </Button>
         <textarea 
-          value={JSON.stringify(allPersonArr, null, 2)}
+          value={JSON.stringify(newPersArr, null, 2)}
           id="allPersons"
           style={{ display: 'none' }}
         />

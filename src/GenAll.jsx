@@ -28,7 +28,7 @@ for (let i = 0; i < familyNameArr.length; i++) {
   let loopFam = {}
   let familyPower = weightedRandom(1, 175)
   let familyName = familyNameArr[i]
-  let familyId = i
+  let familyId = i + 99
   loopFam = {
     familyId: familyId,
     famName: familyName,
@@ -66,13 +66,13 @@ Array.prototype.sortBy = function(p) {
 export let sortedFamObj = famObj.sortBy('power')
 
 function getPostArrs(map) {
-  let map_array = new Array(map.length);
-  var c = 0;
+  let map_array = new Array(map.length)
+  var c = 0
   for (const key in map) {
-    var max = map[key];
+    var max = map[key]
     for (var i = 1; i <= max; i++) {
-      map_array[c] = key;
-      c++;
+      map_array[c] = key
+      c++
     }
   }
   return map_array
@@ -98,7 +98,7 @@ export const assignRanks = (group, groupSize, rankQuant, rankName, postArr) => {
               }
               selectPerson = 0
               found = true
-              allPersonArr.push(selectGroup[i].persons[selectPerson])
+              // allPersonArr.unshift(selectGroup[i].persons[selectPerson])
         } else {
               selectPerson++
         }
@@ -110,8 +110,6 @@ export const assignRanks = (group, groupSize, rankQuant, rankName, postArr) => {
       }
   } while (remPosts > 0)
 }
-
-
 assignRanks(sortedFamObj, 10, 24, 1, getPostArrs(rankPosts[0]))
 assignRanks(sortedFamObj, 13, 13, 2, getPostArrs(rankPosts[1]))
 assignRanks(sortedFamObj, 17, 50, 3, getPostArrs(rankPosts[2]))
@@ -132,7 +130,17 @@ assignRanks(sortedFamObj, 111, 543, 17, getPostArrs(rankPosts[16]))
 assignRanks(sortedFamObj, 111, 122, 18, getPostArrs(rankPosts[17]))
 assignRanks(sortedFamObj, 111, 2023, 19, getPostArrs(rankPosts[18]))
 
- 
+export let newPersArr = []
+
+for (let i = 0; i < sortedFamObj.length; i++) {
+  for (let j = 0; j < sortedFamObj[i].persons.length; j++) {
+    newPersArr.push(sortedFamObj[i].persons[j])
+  }
+}
+
+console.log(newPersArr)
+newPersArr.sortBy('firstName')
+console.log(newPersArr)
 
 export const keyToValue = (numb, arr) => {
   let replace_map = arr
@@ -141,19 +149,19 @@ export const keyToValue = (numb, arr) => {
 }
 
 export const downloadTxtFile = () => {
-  const element = document.createElement("a");
-  const file = new Blob([document.getElementById('results').value], {type: 'application/json'});
-  element.href = URL.createObjectURL(file);
-  element.download = "korgen-results.json";
-  document.body.appendChild(element); // Required for this to work in FireFox
-  element.click();
+  const element = document.createElement("a")
+  const file = new Blob([document.getElementById('results').value], {type: 'application/json'})
+  element.href = URL.createObjectURL(file)
+  element.download = "korgen-results.json"
+  document.body.appendChild(element) // Required for this to work in FireFox
+  element.click()
 }
 
 export const downloadContent = () => {
-  const element = document.createElement("a");
-  const file = new Blob([document.getElementById('allPersons').value], {type: 'application/json'});
-  element.href = URL.createObjectURL(file);
-  element.download = "korgen-person-list.json";
-  document.body.appendChild(element); // Required for this to work in FireFox
-  element.click();
+  const element = document.createElement("a")
+  const file = new Blob([document.getElementById('allPersons').value], {type: 'application/json'})
+  element.href = URL.createObjectURL(file)
+  element.download = "korgen-person-list.json"
+  document.body.appendChild(element) // Required for this to work in FireFox
+  element.click()
 }
