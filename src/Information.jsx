@@ -8,6 +8,12 @@ import { CSVLink } from 'react-csv';
 import './Information.css'
 
 const Information = () => {
+  const [clicked, setClicked] = React.useState(false)
+  React.useEffect(() => {
+    if (clicked) {
+      window.open('https://github.com/martenfrisk/KoreanDynastyGenerator/tree/source','_blank')
+    }
+  });
   const fields = ['personID', 'firstName', 'famName', 'rank', 'post']
   const json2csvParser = new Parser({ fields})
   const personData = json2csvParser.parse(newPersArr)
@@ -23,6 +29,9 @@ const Information = () => {
       <Card>
         <Text h3>
         Generate list of Korean names for worldbuilding
+        </Text>
+        <Text h5>
+          Scroll down for your automatically generated list (refresh the page to get a new list)
         </Text>
         <Text blockquote size="1rem">
         The data is based on the <Link href="https://en.wikipedia.org/wiki/Gyeongguk_daejeon" icon style={{borderBottom: '1px gray dotted'}}>Korean State Code</Link> (gyeongguk daejeon) of 1471 which delineated the rank and number of officials in each government agency. In theory, every male citizen could sit the entrance exam to become a government official but in practice the power was concentrated in a few families.<Spacer y={1} />
@@ -60,24 +69,21 @@ const Information = () => {
         </Collapse.Group>
 
         <Card.Footer>
-            <Button icon={<Icon.Github />} 
-              href="https://github.com/martenfrisk/KoreanDynastyGenerator/tree/source" 
-              auto 
-              size="mini"
-              type="success" 
-              ghost
-            >
-            GitHub Repo</Button>
+          <Button onClick={() => setClicked(true)} icon={<Icon.Github />} size='mini' type='secondary'>
+          GitHub Repo
+          </Button>
         </Card.Footer>
       </Card>
 
       <Spacer y={2} />
       
-      <Button icon={<Icon.ChevronsDown />} auto style={{marginRight: '10px'}}>
-          <Link href="#textarea">Jump to results</Link>
+      <Button icon={<Icon.ChevronsDown />} auto type='success' ghost style={{marginRight: '10px'}}>
+        <Link href="#textarea">Jump to results</Link>
       </Button>
 
-      <Button icon={<Icon.RotateCw />} onClick={refreshPage} auto>Regenerate (reloads page)</Button>
+      <Button icon={<Icon.RotateCw />} onClick={refreshPage} type='success' ghost auto>
+        Regenerate (reloads page)
+      </Button>
       
       <Spacer y={2}/>
 
