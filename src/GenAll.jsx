@@ -1,4 +1,4 @@
-import { nameArr, familyNameArr, rankPosts } from './Namelist'
+import { nameArr, familyNameArr, rankPosts, rankList, departList } from './Namelist'
 
 
 export function refreshPage() {
@@ -138,21 +138,24 @@ export let newPersArr = []
 //   }
 // }
 
-sortedFamObj.map((obj) => {
-  return obj.persons.map((x) => {
-    return newPersArr.push(x)
-  })
-})
-
-console.log(newPersArr)
+sortedFamObj.map((obj) => 
+  obj.persons.map((x) =>  newPersArr.push(x))
+)
 newPersArr.sortBy('firstName')
-console.log(newPersArr)
 
 export const keyToValue = (numb, arr) => {
   let replace_map = arr
 
   return replace_map[numb]
 }
+
+export let secPersArr = []
+// eslint-disable-next-line array-callback-return
+secPersArr = newPersArr.map((obj) => {
+    obj.rank = rankList[obj.rank]
+    obj.post = departList[obj.post]
+}
+)
 
 export const downloadTxtFile = () => {
   const element = document.createElement("a")

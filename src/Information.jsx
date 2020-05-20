@@ -1,5 +1,5 @@
 import React from 'react'
-import { departList, rankList, officeDescs } from './Namelist'
+import { officeDescs } from './Namelist'
 import { Link, Tooltip, Spacer, Code, Textarea, Card, Text, Page, Grid, Button, Collapse, Divider, Row } from '@zeit-ui/react'
 import * as Icon from '@zeit-ui/react-icons'
 import { refreshPage, sortedFamObj, keyToValue, downloadTxtFile, downloadContent, newPersArr } from './GenAll'
@@ -134,8 +134,14 @@ const Information = () => {
               <Grid.Container gap={1} key={ob.personID}>
                 <Grid xs={12}><Text small>{ob.firstName}</Text></Grid>
                 { ob.rank && <>
-                <Grid xs={6}><Text small>{keyToValue(ob.rank, rankList)}</Text></Grid>
-                <Grid xs={6}><Text small style={{borderBottom: '1px gray dotted'}}><Tooltip type='secondary' placement='left' leaveDelay='50' text={keyToValue(ob.post, officeDescs)}>{keyToValue(ob.post, departList)}</Tooltip></Text></Grid>
+                <Grid xs={6}><Text small>{ob.rank}</Text></Grid>
+                <Grid xs={6}>
+                <Tooltip type='success' hideArrow placement='leftEnd' text={keyToValue(ob.post, officeDescs)}>
+                  <Text small style={{borderBottom: '1px gray dotted'}}>
+                    {ob.post}
+                  </Text>
+                </Tooltip>
+                </Grid>
                 </> }
                 <br />
               </Grid.Container>
@@ -189,6 +195,7 @@ const Information = () => {
           value={JSON.stringify(newPersArr, null, 2)}
           id="allPersons"
           style={{ display: 'none' }}
+          readOnly
         />
         <Button 
             onClick={downloadContent} 
