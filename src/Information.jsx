@@ -3,12 +3,17 @@ import { departList, rankList, officeDescs } from './Namelist'
 import { Link, Tooltip, Spacer, Code, Textarea, Card, Text, Page, Grid, Button, Collapse, Divider, Row } from '@zeit-ui/react'
 import * as Icon from '@zeit-ui/react-icons'
 import { refreshPage, sortedFamObj, keyToValue, downloadTxtFile, downloadContent, allPersonArr } from './GenAll'
+import { Parser } from 'json2csv'
+import { CSVDownload } from 'react-csv';
+ 
 
 const Information = (props) => {
-    
-    return (
+  const fields = ['personID', 'firstName', 'famName', 'rank', 'post']
+  const json2csvParser = new Parser({ fields})
+  const personData = json2csvParser.parse(allPersonArr)
+  return (
     <>
-<Page>
+    <Page>
     <Page.Header style={{marginTop: '2em', marginBottom: '-2em'}}>
       <Text h1>Korean Dynasty Generator</Text>
     </Page.Header>
@@ -135,7 +140,7 @@ const Information = (props) => {
       </p>
       <Text h4>Code example</Text>
       <Code block>
-      {`
+      {`// results:
 [{
     "familyId": 7,
     "famName": "Chae",
@@ -146,7 +151,13 @@ const Information = (props) => {
         "rank":1,
         "post":"87"
     }]
-}]`}
+}]
+
+// persons list .csv file:
+"personID","firstName","famName","rank","post"
+"70","Seunggi","Chae",1,"87"
+...
+`}
       </Code>
       <Text h4>Unedited results</Text>
     <Textarea 
@@ -173,6 +184,14 @@ const Information = (props) => {
         style={{ textTransform: 'lowercase', marginLeft: '10px'}}
     >
         Download list of persons as .json file
+    </Button>
+    <Button
+        icon={<Icon.Download />} 
+        auto 
+        style={{ textTransform: 'lowercase', marginLeft: '10px'}}
+    >
+    <CSVDownload data={personData} target='_blank' />
+    persons list as .csv
     </Button>
     </Card>
     </Page.Content>
