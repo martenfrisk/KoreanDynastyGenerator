@@ -132,11 +132,17 @@ assignRanks(sortedFamObj, 111, 2023, 19, getPostArrs(rankPosts[18]))
 
 export let newPersArr = []
 
-for (let i = 0; i < sortedFamObj.length; i++) {
-  for (let j = 0; j < sortedFamObj[i].persons.length; j++) {
-    newPersArr.push(sortedFamObj[i].persons[j])
-  }
-}
+// for (let i = 0; i < sortedFamObj.length; i++) {
+//   for (let j = 0; j < sortedFamObj[i].persons.length; j++) {
+//     newPersArr.push(sortedFamObj[i].persons[j])
+//   }
+// }
+
+sortedFamObj.map((obj) => {
+  return obj.persons.map((x) => {
+    return newPersArr.push(x)
+  })
+})
 
 console.log(newPersArr)
 newPersArr.sortBy('firstName')
