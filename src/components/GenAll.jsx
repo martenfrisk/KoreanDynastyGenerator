@@ -1,27 +1,5 @@
-import { nameArr, familyNameArr, rankPosts, rankList, departList } from './Namelist'
-
-
-export function refreshPage() {
-  window.location.reload(false);
-}
-
-
-function getRandomInt(min, max) {
-  min = Math.ceil(min)
-  max = Math.floor(max)
-  return Math.floor(Math.random() * (max - min)) + min
-}
-
-const weightedRandom = (min, max) => {
-  let dice = getRandomInt(1, 10)
-  if (dice <= 7) {
-    return getRandomInt(min, max * 0.4)
-  } else if (dice <= 9) {
-    return getRandomInt(max * 0.4, max * 0.75)
-  } else if (dice > 9) {
-    return getRandomInt(max * 0.75, max)
-  }
-}
+import { nameArr, familyNameArr, rankPosts, rankList, departList } from '../data/Namelist'
+import { getRandomInt, weightedRandom } from './Utilities'
 
 let famObj = []
 for (let i = 0; i < familyNameArr.length; i++) {
@@ -54,8 +32,6 @@ for (let i = 0; i < familyNameArr.length; i++) {
   famObj.push(loopFam)
 }
     
-    
-
 // eslint-disable-next-line no-extend-native
 Array.prototype.sortBy = function(p) {
     return this.slice(0).sort(function(a,b) {
@@ -132,12 +108,6 @@ assignRanks(sortedFamObj, 111, 2023, 19, getPostArrs(rankPosts[18]))
 
 export let newPersArr = []
 
-// for (let i = 0; i < sortedFamObj.length; i++) {
-//   for (let j = 0; j < sortedFamObj[i].persons.length; j++) {
-//     newPersArr.push(sortedFamObj[i].persons[j])
-//   }
-// }
-
 sortedFamObj.map((obj) => 
   obj.persons.map((x) =>  newPersArr.push(x))
 )
@@ -156,21 +126,3 @@ secPersArr = newPersArr.map((obj) => {
     obj.post = departList[obj.post]
 }
 )
-
-export const downloadTxtFile = () => {
-  const element = document.createElement("a")
-  const file = new Blob([document.getElementById('results').value], {type: 'application/json'})
-  element.href = URL.createObjectURL(file)
-  element.download = "korgen-results.json"
-  document.body.appendChild(element) // Required for this to work in FireFox
-  element.click()
-}
-
-export const downloadContent = () => {
-  const element = document.createElement("a")
-  const file = new Blob([document.getElementById('allPersons').value], {type: 'application/json'})
-  element.href = URL.createObjectURL(file)
-  element.download = "korgen-person-list.json"
-  document.body.appendChild(element) // Required for this to work in FireFox
-  element.click()
-}

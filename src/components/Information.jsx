@@ -1,11 +1,12 @@
 import React from 'react'
-import { officeDescs } from './Namelist'
+import { officeDescs } from '../data/Namelist'
 import { Link, Tooltip, Spacer, Code, Textarea, Card, Text, Page, Grid, Button, Collapse, Divider, Row } from '@zeit-ui/react'
+import { refreshPage, downloadAll, downloadPersons } from './Utilities'
 import * as Icon from '@zeit-ui/react-icons'
-import { refreshPage, sortedFamObj, keyToValue, downloadTxtFile, downloadContent, newPersArr } from './GenAll'
+import { sortedFamObj, keyToValue, newPersArr } from './GenAll'
 import { Parser } from 'json2csv'
 import { CSVLink } from 'react-csv';
-import './Information.css'
+import '../stylesheets/Information.css'
 
 const Information = () => {
   const [clicked, setClicked] = React.useState(false)
@@ -17,6 +18,7 @@ const Information = () => {
   const fields = ['personID', 'firstName', 'famName', 'rank', 'post']
   const json2csvParser = new Parser({ fields})
   const personData = json2csvParser.parse(newPersArr)
+
   return (
     <>
     <Page>
@@ -192,7 +194,7 @@ const Information = () => {
         />
         <Spacer y={1} />
         <Button 
-            onClick={downloadTxtFile} 
+            onClick={downloadAll} 
             icon={<Icon.Download />} 
             auto 
             style={{ textTransform: 'lowercase'}}>Download results as .json file
@@ -204,7 +206,7 @@ const Information = () => {
           readOnly
         />
         <Button 
-            onClick={downloadContent} 
+            onClick={downloadPersons} 
             icon={<Icon.Download />} 
             auto 
             style={{ textTransform: 'lowercase', marginLeft: '10px'}}
