@@ -1,17 +1,25 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { officeDescs } from '../data/Namelist'
 import { Link, Tooltip, Spacer, Code, Textarea, Card, Text, Page, Grid, Button, Collapse, Divider, Row } from '@zeit-ui/react'
-import { refreshPage, downloadAll, downloadPersons } from './Utilities'
+import { refreshPage, downloadAll, downloadPersons, keyToValue } from './Utilities'
 import * as Icon from '@zeit-ui/react-icons'
-import { sortedFamObj, keyToValue, newPersArr } from './GenAll'
+import { newFamObj, newPersArr, Generator } from './Generator'
 import { Parser } from 'json2csv'
 import { CSVLink } from 'react-csv';
 import '../stylesheets/Information.css'
 
 const Information = () => {
-  const [clicked, setClicked] = React.useState(false)
-  React.useEffect(() => {
-    if (clicked) {
+  const [ extLink, setExtLink ] = useState(false)
+  const [ showContent, setShowContent ] = useState(false)
+  const [ data, setData ] = useState({})
+
+  const contentFlip = () => {
+    setShowContent(() => true)
+    setData((prevState) => prevState = newFamObj)
+  }
+
+  useEffect(() => {
+    if (extLink) {
       window.open('https://github.com/martenfrisk/KoreanDynastyGenerator/tree/source','_blank')
     }
   });
@@ -26,7 +34,7 @@ const Information = () => {
     <Page.Header style={{marginTop: '2em', marginBottom: '-2em'}}>
       <Text h1>Korean Dynasty Generator</Text>
     </Page.Header>
-    
+    <Generator clickFunc={contentFlip} />
     <Page.Content>
       <Card>
         <Text h3>
@@ -71,7 +79,7 @@ const Information = () => {
         </Collapse.Group>
 
         <Card.Footer>
-          <Button onClick={() => setClicked(true)} icon={<Icon.Github />} size='mini' type='secondary'>
+          <Button onClick={() => setExtLink(true)} icon={<Icon.Github />} size='mini' type='secondary'>
           GitHub Repo
           </Button>
         </Card.Footer>
@@ -88,22 +96,24 @@ const Information = () => {
       </Button>
       
       <Spacer y={2}/>
-
+      </Page.Content>
+    {showContent === true &&
+    <Page.Content>
       <Card hoverable>
         <Text h3  style={{ textAlign: 'center' }}>Top 30 families</Text>
         <Text h4  style={{ textAlign: 'center' }}>Family name (family members)</Text>
       
         <Grid.Container gap={2} justify="center">
           <Grid xs={6}>
-            {sortedFamObj.slice(0, 10)
+            {newFamObj.slice(0, 10)
               .map((obj) => <div key={obj.familyId}><Text b>{obj.famName}</Text>&nbsp; ({obj.power}) </div>)}
           </Grid>
           <Grid xs={6}>
-            {sortedFamObj.slice(11, 21)
+            {newFamObj.slice(11, 21)
               .map((obj) => <div key={obj.familyId}><Text b>{obj.famName}</Text>&nbsp;({obj.power})</div>)}
           </Grid>
           <Grid xs={6}>
-              {sortedFamObj.slice(22, 32)
+              {newFamObj.slice(22, 32)
               .map((obj) => <div key={obj.familyId}><Text b>{obj.famName}</Text>&nbsp;({obj.power})</div>)}
           </Grid>
         </Grid.Container>
@@ -123,7 +133,7 @@ const Information = () => {
           <Row justify="center">
 
             <Text h4>
-              {sortedFamObj[0].famName}&nbsp;family -&nbsp;{sortedFamObj[0].power}&nbsp;members
+              {newFamObj[0].famName}&nbsp;family -&nbsp;{newFamObj[0].power}&nbsp;members
             </Text>
             <Spacer y={2} />
           
@@ -137,7 +147,7 @@ const Information = () => {
         <Divider volume={2} y={3} />
 
         <Grid.Container>
-          {sortedFamObj[0].persons.map((ob) => {
+          {newFamObj[0].persons.map((ob) => {
             return (
               <Grid.Container gap={1} key={ob.personID}>
                 <Grid xs={12}><Text small>{ob.firstName}</Text></Grid>
@@ -188,7 +198,7 @@ const Information = () => {
         </Code>
         <Text h4>Unedited results</Text>
         <Textarea 
-          value={JSON.stringify(sortedFamObj, null, 2)}
+          value={JSON.stringify(newFamObj, null, 2)}
           id="results"
           width="100%"
         />
@@ -228,6 +238,7 @@ const Information = () => {
         </Button>
       </Card>
     </Page.Content>
+    }
     <Spacer y={2} />
     <Page.Footer style={{textAlign: "right", paddingRight: "60px" }}>
       <Text small >Created with React. 
