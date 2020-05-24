@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { officeDescs } from '../data/Namelist'
-import { Link, Tooltip, Spacer, Code, Textarea, Card, Text, Page, Grid, Button, Collapse, Divider, Row } from '@zeit-ui/react'
-import { refreshPage, downloadAll, downloadPersons, keyToValue } from './Utilities'
+import { Link, Tooltip, Spacer, Code, Textarea, Card, Text, Page, Grid, Button, Collapse, Divider, Row, Col, useInput, Input } from '@zeit-ui/react'
+import { downloadAll, downloadPersons, keyToValue, randomEra } from './Utilities'
 import * as Icon from '@zeit-ui/react-icons'
 import { newFamObj, newPersArr, Generator } from './Generator'
 import { Parser } from 'json2csv'
-import { CSVLink } from 'react-csv';
+import { CSVLink } from 'react-csv'
 import '../stylesheets/Information.css'
+import {  } from '../data/Namelist'
+import {  } from './Utilities'
+
 
 const Information = () => {
   const [ extLink, setExtLink ] = useState(false)
@@ -27,6 +30,13 @@ const Information = () => {
   const json2csvParser = new Parser({ fields})
   const personData = json2csvParser.parse(newPersArr)
 
+
+  const { state, setState, bindings } = useInput()
+    
+  useEffect(() => setState(randomEra), [])
+  
+  let eraSeed = state
+
   return (
     <>
     <Page>
@@ -34,8 +44,88 @@ const Information = () => {
     <Page.Header style={{marginTop: '2em', marginBottom: '-2em'}}>
       <Text h1>Korean Dynasty Generator</Text>
     </Page.Header>
-    <Generator clickFunc={contentFlip} />
+    <Spacer y={3} />
+
+    <Text small span>
+        Enter your era name here
+        </Text>
+        <Text small span> (this is your seed; reinitializing with the same era name produces the same result) <br />
+        </Text>
+            <Input {...bindings} size="large" status="success"  style={{fontSize: "1.5em"}} />
+        <Spacer y={0.5} />
+        <Button size="large"  iconRight={<Icon.Shuffle />}
+                onClick={() => setState(randomEra)}
+        >
+            Random Era name
+        </Button>
+        <Spacer y={0.5} />
+        
+    <Generator clickFunc={contentFlip} seed={eraSeed} />
+
+    {showContent === true &&
     <Page.Content>
+      <Card id='results' style={{marginTop: '-20px'}}>
+      <Row>
+         <Col span={12}>
+          <Text h3  style={{ textAlign: 'center' }}>Top 10 families</Text>
+          <Text h4  style={{ textAlign: 'center' }}>Family name (family members)</Text>
+        </Col>
+        
+        <Col span={12}>
+          <Text h4>
+            {newFamObj[0].famName}&nbsp;family -&nbsp;{newFamObj[0].power}&nbsp;members (top 10 shown below)
+          </Text>
+          <Grid.Container>
+            <Grid xs={12}><Text b>First name</Text></Grid>
+            <Grid xs={6}><Text b>Rank</Text></Grid>
+            <Grid xs={6}><Text b>Agency</Text><br /><Text small>Hover for info</Text></Grid>
+          </Grid.Container>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col span={12}>
+          {newFamObj.slice(0, 10)
+            .map((obj) => <div key={obj.familyId}><Text b>{obj.famName}</Text>&nbsp; ({obj.power})<br /></div>)}
+          {/* <Grid xs={24} justify="center">
+            <Text h3  style={{ textAlign: 'center' }}>Most powerful family and its top 10 family members</Text>
+          </Grid> */}
+        </Col>
+
+        
+
+          <Col span={12}>
+                  <Grid.Container>
+          {newFamObj[0].persons.slice(0, 10).map((ob) => {
+            return (
+              <Grid.Container gap={1} key={ob.personID}>
+                <Grid xs={12}><Text small>{ob.firstName}</Text></Grid>
+                { ob.rank && <>
+                <Grid xs={6}><Text small>{ob.rank}</Text></Grid>
+                <Grid xs={6}>
+                <Tooltip type='success' hideArrow placement='leftEnd' text={keyToValue(ob.post, officeDescs)}>
+                  <Text small style={{borderBottom: '1px gray dotted'}}>
+                    {ob.post}
+                  </Text>
+                </Tooltip>
+                </Grid>
+                </> }
+                <br />
+              </Grid.Container>
+            )
+          })}
+        </Grid.Container>
+
+          </Col>
+      </Row>
+    </Card> 
+    <Spacer y={1} />
+    <Button icon={<Icon.ChevronsDown />} auto type='success' ghost style={{marginBottom: '-50px'}}>
+        <Link href="#unedited">Jump to raw data</Link>
+      </Button>
+</Page.Content>
+    }
+    <Page.Content style={{marginBottom: '-40px', marginTop: '-40px'}}>
       <Card>
         <Text h3>
         Generate list of Korean names for worldbuilding
@@ -44,7 +134,6 @@ const Information = () => {
           Scroll down for your automatically generated list (refresh the page to get a new list)
         </Text>
         <Text blockquote size="1rem">
-        The data is based on the <Link href="https://en.wikipedia.org/wiki/Gyeongguk_daejeon" icon style={{borderBottom: '1px gray dotted'}}>Korean State Code</Link> (gyeongguk daejeon) of 1471 which delineated the rank and number of officials in each government agency. In theory, every male citizen could sit the entrance exam to become a government official but in practice the power was concentrated in a few families.<Spacer y={1} />
         This generator roughly simulates how power could have been divided by in <Link href="https://en.wikipedia.org/wiki/Joseon" icon style={{borderBottom: '1px gray dotted'}}>Joseon Korea</Link> by creating families including family members with names, ranks and titles. 
         </Text>
         <Spacer y={2} />
@@ -58,6 +147,9 @@ const Information = () => {
           While the number of government officials is based on those originally stipulated in the State Code, the data related to families is randomized due to lack of exact historical records. The bigger the family, the more likely that they will contain high-ranking officials. Not included are local and provincial government positions as well as the royal family (see Planned features below).
           </Collapse>
           <Collapse title="Names & Ranks">
+          <Text p>
+          The data is based on the <Link href="https://en.wikipedia.org/wiki/Gyeongguk_daejeon" icon style={{borderBottom: '1px gray dotted'}}>Korean State Code</Link> (gyeongguk daejeon) of 1471 which delineated the rank and number of officials in each government agency. In theory, every male citizen could sit the entrance exam to become a government official but in practice the power was concentrated in a few families.
+          </Text>
           <Divider align="start">Names</Divider>
           <Text p>
           The first names are randomly chosen from the most popular names in South Korea today, with a few non-Korean names removed (e.g. Daniel). To simplify matters, I made each person in every family have a unique first name. I used less common surnames for the families because I didn't want Kims and Parks in my made-up world. You can adjust the list of names by editing the Namelist.jsx file. 
@@ -83,99 +175,19 @@ const Information = () => {
           GitHub Repo
           </Button>
         </Card.Footer>
-      </Card>
-
-      <Spacer y={2} />
-      
-      <Button icon={<Icon.ChevronsDown />} auto type='success' ghost style={{marginRight: '10px'}}>
-        <Link href="#textarea">Jump to results</Link>
-      </Button>
-
-      <Button icon={<Icon.RotateCw />} onClick={refreshPage} type='success' ghost auto>
-        Regenerate (reloads page)
-      </Button>
-      
-      <Spacer y={2}/>
+      </Card> 
       </Page.Content>
     {showContent === true &&
-    <Page.Content>
-      <Card hoverable>
-        <Text h3  style={{ textAlign: 'center' }}>Top 30 families</Text>
-        <Text h4  style={{ textAlign: 'center' }}>Family name (family members)</Text>
-      
-        <Grid.Container gap={2} justify="center">
-          <Grid xs={6}>
-            {newFamObj.slice(0, 10)
-              .map((obj) => <div key={obj.familyId}><Text b>{obj.famName}</Text>&nbsp; ({obj.power}) </div>)}
-          </Grid>
-          <Grid xs={6}>
-            {newFamObj.slice(11, 21)
-              .map((obj) => <div key={obj.familyId}><Text b>{obj.famName}</Text>&nbsp;({obj.power})</div>)}
-          </Grid>
-          <Grid xs={6}>
-              {newFamObj.slice(22, 32)
-              .map((obj) => <div key={obj.familyId}><Text b>{obj.famName}</Text>&nbsp;({obj.power})</div>)}
-          </Grid>
-        </Grid.Container>
-      </Card>
+<Page.Content>
 
-      <Spacer y={2}/>
-
-      <Card hoverable>
-
-      <Grid.Container gap={1} justify="left" >
-      
-        <Grid xs={24} justify="center">
-          <Text h3  style={{ textAlign: 'center' }}>Most powerful family with members (ranks)</Text>
-        </Grid>
-
-        <Grid xs={24}>
-          <Row justify="center">
-
-            <Text h4>
-              {newFamObj[0].famName}&nbsp;family -&nbsp;{newFamObj[0].power}&nbsp;members
-            </Text>
-            <Spacer y={2} />
-          
-          </Row>
-        </Grid>
-
-        <Grid xs={12}><Text b>First name</Text></Grid>
-        <Grid xs={6}><Text b>Rank</Text></Grid>
-        <Grid xs={6}><Text b>Agency</Text><br /><Text small>Hover for info</Text></Grid>
-
-        <Divider volume={2} y={3} />
-
-        <Grid.Container>
-          {newFamObj[0].persons.map((ob) => {
-            return (
-              <Grid.Container gap={1} key={ob.personID}>
-                <Grid xs={12}><Text small>{ob.firstName}</Text></Grid>
-                { ob.rank && <>
-                <Grid xs={6}><Text small>{ob.rank}</Text></Grid>
-                <Grid xs={6}>
-                <Tooltip type='success' hideArrow placement='leftEnd' text={keyToValue(ob.post, officeDescs)}>
-                  <Text small style={{borderBottom: '1px gray dotted'}}>
-                    {ob.post}
-                  </Text>
-                </Tooltip>
-                </Grid>
-                </> }
-                <br />
-              </Grid.Container>
-            )
-          })}
-        </Grid.Container>
-    </Grid.Container>
-    </Card> 
-
-    <Spacer y={2}/>
-
-    <Card hoverable>
+    <Card>
+    <Text h3>Raw data for export</Text>
+    <Collapse.Group>
       <p id="textarea">
         In the textarea below is the full generated result. The following is an example of a single object, with only the first person. Click <Link href="./Infotable.html" style={{borderBottom: '1px gray dotted'}}>here</Link> more details on the keys (rank, post, power) and sources.
       </p>
-        <Text h4>Code example</Text>
+      <Collapse title='Code example'>
+        <Text h4></Text>
         <Code block>
         {`// results:
 [{
@@ -196,13 +208,14 @@ const Information = () => {
 ...
 `}
         </Code>
-        <Text h4>Unedited results</Text>
+        </Collapse>
+        <Collapse title='Unedited results'>
         <Textarea 
           value={JSON.stringify(newFamObj, null, 2)}
-          id="results"
+          id="unedited"
           width="100%"
         />
-        <Spacer y={1} />
+        </Collapse>
         <Button 
             onClick={downloadAll} 
             icon={<Icon.Download />} 
@@ -236,6 +249,7 @@ const Information = () => {
             persons list as .csv
           </CSVLink>
         </Button>
+      </Collapse.Group>
       </Card>
     </Page.Content>
     }

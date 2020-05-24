@@ -1,7 +1,7 @@
-
+import { eraAdj, eraNoun } from '../data/Namelist'
  export const downloadAll = () => {
     const element = document.createElement("a")
-    const file = new Blob([document.getElementById('results').value], {type: 'application/json'})
+    const file = new Blob([document.getElementById('unedited').value], {type: 'application/json'})
     element.href = URL.createObjectURL(file)
     element.download = "korgen-results.json"
     document.body.appendChild(element) // Required for this to work in FireFox
@@ -15,7 +15,13 @@
     document.body.appendChild(element) // Required for this to work in FireFox
     element.click()
   }
-
+ export const randomEra = () => {
+    let randNoun = eraNoun[getRandomInt(1, eraNoun.length)]
+    randNoun = randNoun.charAt(0).toUpperCase() + randNoun.slice(1)
+    let randAdj = eraAdj[getRandomInt(1, eraAdj.length)]
+    randAdj = randAdj.charAt(0).toUpperCase() + randAdj.slice(1)
+    return "Era of " + randAdj + " " + randNoun
+}
   export const keyToValue = (numb, arr) => {
    let replace_map = arr
  

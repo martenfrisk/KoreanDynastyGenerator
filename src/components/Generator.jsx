@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { nameArr, familyNameArr, rankPosts, rankList, departList } from '../data/Namelist'
-import { getRandomInt, weightedRandom, keyToValue } from './Utilities'
-import { Button } from '@zeit-ui/react'
+import { keyToValue } from './Utilities'
+import { Button, Spinner } from '@zeit-ui/react'
+import * as Icon from '@zeit-ui/react-icons'
+import Chance from 'chance'
 
 let famObj = []
 export let newFamObj = []
@@ -26,13 +28,15 @@ Array.prototype.sortBy = function(p) {
     })
 }
 export const Generator = (props) => {
-
+  const [ loading, setLoading ] = useState(false)
+  let eraChance = new Chance(props.seed)
   function assignAll() {
+    setLoading(() => true)
     famObj = []
     newFamObj = []
     for (let i = 0; i < familyNameArr.length; i++) {
       let loopFam = {}
-      let familyPower = weightedRandom(1, 175)
+      let familyPower = eraChance.integer({ min: 1, max: 175})
       let familyName = familyNameArr[i]
       let familyId = i + 99
       loopFam = {
@@ -44,7 +48,7 @@ export const Generator = (props) => {
       let number = loopFam.power
       let personArr = []
       let nameEnd = 676 - familyPower
-      let firstNameNr = getRandomInt(0, nameEnd)
+      let firstNameNr = eraChance.integer({ min: 0, max: nameEnd })
       for (let i = 0; i < number; i++) {
         let newName = nameArr[firstNameNr] 
         let personID = familyId + '' + i 
@@ -115,6 +119,7 @@ assignRanks(newFamObj, 111, 122, 18, getPostArrs(rankPosts[17]))
 assignRanks(newFamObj, 111, 2023, 19, getPostArrs(rankPosts[18]))
 
 console.log(newFamObj)
+setLoading(() => false)
   }
 
   function both() {
@@ -124,7 +129,15 @@ console.log(newFamObj)
 
   return (
     <>
-    <Button onClick={both}>Generate</Button>
+    <Button 
+      onClick={both} 
+      size="large" 
+      type='success'
+      iconRight={<Icon.Globe />}
+    >
+        Generate
+    </Button>
+    {loading && <Spinner />}
     </>
   )
 }
