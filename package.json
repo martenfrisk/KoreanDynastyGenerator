@@ -32,6 +32,7 @@
     "react-tooltip": "^4.2.6",
     "react-virtualized": "^9.21.2",
     "react-virtualized-tree": "^3.4.0",
+    "serialize-javascript": "3.1.0",
     "styled-components": "^5.1.0"
   },
   "scripts": {
